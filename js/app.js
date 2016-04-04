@@ -1,52 +1,83 @@
-
-
 // Cleaner way to write this:
-var randomNumber=0;
-getRandomNumber(0, 100);
+
+var randomNumber = getRandomNumber(0, 100);
+var userGuess=0;
 console.log(randomNumber);
 
-$(document).ready(function(){
+$(document).ready(function() {
 
 
-	/*--- Display information modal box ---*/
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
+    /*--- Display information modal box ---*/
+    $(".what").click(function() {
+        $(".overlay").fadeIn(1000);
 
-  	});
+    });
 
-  	/*--- Hide information modal box ---*/
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
+    /*--- Hide information modal box ---*/
+    $("a.close").click(function() {
+        $(".overlay").fadeOut(1000);
+    });
 
 
-  	$("#guessButton").click(function(e){
-  		e.preventDefault();
-  		var userGuess = parseInt(document.getElementById("userGuess").value);
-  		var guesses = parseInt(document.getElementById("count").value);
-  		console.log(guesses);
-  		
-  		if (userGuess == randomNumber){
-  			$("#feedback").text("You Got it!");
-  		}
+    $("#guessButton").click(function(e) {
+        e.preventDefault();
+        guessGame(5, 10);
 
-  		else if(userGuess <= randomNumber + 5 && userGuess>= randomNumber - 5){
-  			$("#feedback").text("Hot, Hot, Hot!");
-  		}
+    });
 
-  		else if (userGuess <= randomNumber + 10 && userGuess >= randomNumber - 10){
-  			$("#feedback").text("Warm. Keep Going");
-  		
-  		} else {
-  			$("#feedback").text("Icy cold");
-  		} 		
-  
-  	$("#guessList").append("<li>" + userGuess + "</li>");
+    $(".new").click(function() {
+        getRandomNumber(0, 100);
+        console.log(randomNumber);
 
-  	});
+        // Remove all li
+        $("#guessList li:all").remove();
+        // $("#guessList").empty();
+        $("#feedback").text("Make Your Guess!");
+        // Clear textbar
+        guessGame(5, 10);
+
+        
+
+    });
 
 });
 
 function getRandomNumber(min, max) {
-    randomNumber = Math.floor(Math.random() * (max - min) + min);
+    return randomNumber = Math.floor(Math.random() * (max - min) + min);
 }
+
+
+function guessGame(hotter, hot) {
+    userGuess = parseInt(document.getElementById("userGuess").value);
+    console.log(userGuess);
+    
+	//Need to add # of guesses: 
+    // var guesses = parseInt(document.getElementById("count").value);
+    // console.log(guesses);
+
+if (userGuess == randomNumber) {
+        $("#feedback").text("You Got it!");
+        appendToList();
+        
+    } else if (userGuess <= randomNumber + hotter && userGuess >= randomNumber - hotter){
+        $("#feedback").text("Hot, Hot, Hot!");
+        appendToList();
+    } else if (userGuess <= randomNumber + hot && userGuess >= randomNumber - hot) {
+        $("#feedback").text("Warm. Keep Going");
+        appendToList();
+
+	} else if (isNaN(userGuess)) {
+    	$("#feedback").text("Not a number. Try again!");
+
+    } else {
+        $("#feedback").text("Icy cold");
+        appendToList();
+    }
+
+
+    
+};
+
+function appendToList(){
+	$("#guessList").append("<li>" + userGuess + "</li>");
+};
