@@ -5,11 +5,6 @@ console.log(randomNumber);
 var userGuess = 0;
 var length = 0;
 
-//Need to add # of guesses: 
-var guesses = parseInt(document.getElementById("count").innerHTML);
-console.log(guesses);
-
-
 $(document).ready(function() {
 
 
@@ -22,7 +17,7 @@ $(document).ready(function() {
     /*--- Hide information modal box ---*/
     $("a.close").click(function() {
         $(".overlay").fadeOut(1000);
-    
+
     });
 
 
@@ -53,28 +48,27 @@ function getRandomNumber(min, max) {
 
 
 function guessGame(hotter, hot) {
-    userGuess = parseInt(document.getElementById("userGuess").value);
+    userGuess = parseInt($("#userGuess").val());
     console.log(userGuess);
 
     if (userGuess == randomNumber) {
         $("#feedback").text("You Got it!");
-        appendToList();
 
     } else if (userGuess <= randomNumber + hotter && userGuess >= randomNumber - hotter) {
         $("#feedback").text("Hot, Hot, Hot!");
-        appendToList();
+
     } else if (userGuess <= randomNumber + hot && userGuess >= randomNumber - hot) {
         $("#feedback").text("Warm. Keep Going");
-        appendToList();
 
     } else if (isNaN(userGuess)) {
         $("#feedback").text("Not a number. Try again!");
+        return;
 
     } else {
         $("#feedback").text("Icy cold");
-        appendToList();
     }
 
+    appendToList();
 };
 
 function appendToList() {
